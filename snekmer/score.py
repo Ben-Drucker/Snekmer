@@ -11,6 +11,7 @@ from ._version import __version__
 from .vectorize import KmerBasis
 from .utils import to_feature_matrix
 from sklearn.metrics.pairwise import pairwise_distances
+import sys
 
 
 # scaling object for reducing kmers used in scoring

@@ -6,6 +6,7 @@ import pickle
 from datetime import datetime
 from os import makedirs
 from os.path import exists, join
+import random
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -95,7 +96,9 @@ random_state = (
 cols = [label, "alphabet_name", "k", "scoring"]
 results = {col: [] for col in cols + ["score", "cv_split"]}
 X, y = {i: {} for i in range(cv)}, {i: {} for i in range(cv)}
-for n in range(cv):
+import tqdm, sys
+
+for n in tqdm.trange(cv, file = sys.stderr, desc = "Fold Progress"):
 
     # remove score cols that were generated from full dataset
     unscored_cols = [col for col in list(data.columns) if "_score" not in col]
@@ -135,6 +138,13 @@ for n in range(cv):
         left_index=True,
         right_index=True,
     ).rename(columns={0: f"{family}_score"})
+
+    # import debugpy, random
+    # rand_port = random.randint(2 ** 10, 2 ** 16 - 1)
+    # debugpy.listen(("127.0.0.2", rand_port))
+    # print(f"Waiting for debugger attach on port {rand_port}...")
+    # debugpy.wait_for_client()
+    # debugpy.breakpoint()
 
     # save score loadings
     scores = (

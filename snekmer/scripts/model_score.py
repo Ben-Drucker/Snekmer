@@ -26,6 +26,13 @@ label = (
 with open(snakemake.log[0], "a") as f:
     f.write(f"start time:\t{start_time}\n")
 
+# import debugpy, random
+# rand_port = random.randint(2 ** 10, 2 ** 16 - 1)
+# debugpy.listen(("127.0.0.1", rand_port))
+# print(f"Waiting for debugger attach on port {rand_port}...")
+# debugpy.wait_for_client()
+# debugpy.breakpoint()
+
 # get kmers for this particular set of sequences
 kmers = skm.io.load_pickle(snakemake.input.kmerobj)
 
@@ -114,10 +121,15 @@ delete_cols = ["vec", "sequence_vector"]
 for col in delete_cols:
     if col in class_probabilities.columns:
         class_probabilities = class_probabilities.drop(columns=col)
+
+import sys
+sys.stderr.write("Saving Sequence Vector")
+sys.stderr.flush()
 data.drop(columns="sequence_vector").to_csv(
     snakemake.output.data, index=False, compression="gzip"
 )
-
+sys.stderr.write("Saving Output Weights")
+sys.stderr.flush()
 class_probabilities.to_csv(snakemake.output.weights, index=False, compression="gzip")
 with open(snakemake.output.scorer, "wb") as f:
     pickle.dump(scorer, f)
