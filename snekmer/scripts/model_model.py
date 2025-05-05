@@ -50,7 +50,6 @@ with open(snakemake.input.matrix, "rb") as f:
 #    for seq_f, seq_id in zip(data["filename"], data["sequence_id"])
 # ]
 
-scores = pd.read_csv(snakemake.input.weights)
 family = skm.utils.get_family(
     skm.utils.split_file_ext(snakemake.input.weights)[0],
     regex=config["input_file_regex"],
@@ -63,10 +62,6 @@ cv = config["model"]["cv"]
 
 # set category label name (e.g. "family")
 label = config["score"]["lname"] if str(config["score"]["lname"]) != "None" else "label"
-
-# prevent kmer NA being read as np.nan
-if config["k"] == 2:
-    scores["kmer"] = scores["kmer"].fillna("NA")
 
 # get alphabet name
 if config["alphabet"] in skm.alphabet.ALPHABET_ORDER.keys():

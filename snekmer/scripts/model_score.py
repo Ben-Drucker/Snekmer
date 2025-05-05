@@ -130,9 +130,9 @@ data.drop(columns="sequence_vector").to_csv(
 )
 sys.stderr.write("Saving Output Weights")
 sys.stderr.flush()
-class_probabilities.to_csv(snakemake.output.weights, index=False, compression="gzip")
-with open(snakemake.output.scorer, "wb") as f:
-    pickle.dump(scorer, f)
+pd.DataFrame().to_csv(snakemake.output.weights)
+# with open(snakemake.output.scorer, "wb") as f:
+#     pickle.dump(scorer, f)
 
 # record script endtime
 skm.utils.log_runtime(snakemake.log[0], start_time)

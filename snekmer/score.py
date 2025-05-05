@@ -597,14 +597,31 @@ class KmerScorer:
         y = len(data[vec_col][0])
         # print(x,y)
 
-        matrix = np.zeros(x * y).reshape((x, y))
-        # print(matrix.shape)
+        # matrix = np.zeros(x * y).reshape((x, y))
+        # # print(matrix.shape)
 
+        # for i in range(x):
+        #     for j in range(y):
+        #         value = data[vec_col][i]
+        #         value = value[j]
+        #         matrix[i, j] = value
+
+        from scipy.sparse import lil_matrix
+
+        # Initialize a sparse matrix in LIL format
+        matrix = lil_matrix((x, y))
+
+        # Efficient assignment
         for i in range(x):
-            for j in range(y):
-                value = data[vec_col][i]
-                value = value[j]
+            row_values = data[vec_col][i]
+            for j, value in enumerate(row_values):
                 matrix[i, j] = value
+
+        # Optionally convert to CSR format for efficient arithmetic or storage
+        matrix = matrix.tocsr()
+
+
+
         # matrix = np.asarray(np.concatenate(data[vec_col])).reshape((len(data[vec_col]), len(data[vec_col][0])))
         # print(matrix.shape)
 

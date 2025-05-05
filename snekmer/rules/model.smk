@@ -133,7 +133,7 @@ rule score:
     output:
         data=join(out_dir, "scoring", "sequences", "{nb}.csv.gz"),
         weights=join(out_dir, "scoring", "weights", "{nb}.csv.gz"),
-        scorer=join(out_dir, "scoring", "{nb}.scorer"),
+        # scorer=join(out_dir, "scoring", "{nb}.scorer"),
         matrix=join(out_dir, "scoring", "{nb}.matrix"),
     log:
         join(out_dir, "scoring", "log", "{nb}.log"),
@@ -145,9 +145,9 @@ rule model:
     input:
         raw=rules.score.input.data,
         data=rules.score.output.data,
-        weights=rules.score.output.weights,
+        weight=rules.score.output.weights,
         kmerobj=rules.score.input.kmerobj,
-        matrix=rules.score.output.matrix,
+        # matrix=rules.score.output.matrix,
     output:
         model=join(out_dir, "model", "{nb}.model"),
         results=join(out_dir, "model", "results", "{nb}.csv"),
