@@ -68,6 +68,12 @@ def cv_roc_curve(
     # take each cv result
     for i in X.keys():
         clf.fit(X[i]["train"], y[i]["train"])
+        preds_to_save = clf.predict_proba(X[i]["test"])
+        filename = f"fold_{i}_preds_{title}.npy"
+        np.save(filename, preds_to_save)
+        truths_to_save = y[i]["test"]
+        filename = f"fold_{i}_truths_{title}.npy"
+        np.save(filename, truths_to_save)
         viz = RocCurveDisplay.from_estimator(
             clf.model,
             X[i]["test"],

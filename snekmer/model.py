@@ -177,6 +177,22 @@ class SnekmerModel(BaseEstimator):
         """
         return self.model.predict(X)
 
+    def predict_proba(self, X: NDArray):
+        """Assign classification probability based on new input vector.
+
+        Parameters
+        ----------
+        X : array-like of shape (n_samples, n_features)
+            New samples.
+
+        Returns
+        -------
+        float
+            Probability of class membership.
+
+        """
+        return self.model.predict_proba(X)
+
 
 class SnekmerModelCV:
     def __init__(self, model: str, cv: int = 5):
