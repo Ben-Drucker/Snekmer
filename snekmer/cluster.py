@@ -5,7 +5,7 @@ author: @christinehc
 """
 # imports
 import numpy as np
-from hdbscan import HDBSCAN
+# from hdbscan import HDBSCAN
 from sklearn.base import ClusterMixin
 from sklearn.cluster import (
     AgglomerativeClustering,
@@ -113,7 +113,7 @@ MODELS = {
     "density-jaccard": BSFClustering,
     "hdensity-jaccard": HDBSFClustering,
     "agglomerative-jaccard": BSFAgglomerative,
-    "hdbscan": HDBSCAN,
+    # "hdbscan": HDBSCAN,
 }
 
 

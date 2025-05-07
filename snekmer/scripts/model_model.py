@@ -6,6 +6,7 @@ import pickle
 from datetime import datetime
 from os import makedirs
 from os.path import exists, join
+import random
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -49,7 +50,6 @@ with open(snakemake.input.matrix, "rb") as f:
 #    for seq_f, seq_id in zip(data["filename"], data["sequence_id"])
 # ]
 
-scores = pd.read_csv(snakemake.input.weights)
 family = skm.utils.get_family(
     skm.utils.split_file_ext(snakemake.input.weights)[0],
     regex=config["input_file_regex"],
@@ -62,10 +62,6 @@ cv = config["model"]["cv"]
 
 # set category label name (e.g. "family")
 label = config["score"]["lname"] if str(config["score"]["lname"]) != "None" else "label"
-
-# prevent kmer NA being read as np.nan
-if config["k"] == 2:
-    scores["kmer"] = scores["kmer"].fillna("NA")
 
 # get alphabet name
 if config["alphabet"] in skm.alphabet.ALPHABET_ORDER.keys():
@@ -95,7 +91,9 @@ random_state = (
 cols = [label, "alphabet_name", "k", "scoring"]
 results = {col: [] for col in cols + ["score", "cv_split"]}
 X, y = {i: {} for i in range(cv)}, {i: {} for i in range(cv)}
-for n in range(cv):
+import tqdm, sys
+
+for n in tqdm.trange(cv, file = sys.stderr, desc = "Fold Progress"):
 
     # remove score cols that were generated from full dataset
     unscored_cols = [col for col in list(data.columns) if "_score" not in col]
@@ -135,6 +133,13 @@ for n in range(cv):
         left_index=True,
         right_index=True,
     ).rename(columns={0: f"{family}_score"})
+
+    # import debugpy, random
+    # rand_port = random.randint(2 ** 10, 2 ** 16 - 1)
+    # debugpy.listen(("127.0.0.2", rand_port))
+    # print(f"Waiting for debugger attach on port {rand_port}...")
+    # debugpy.wait_for_client()
+    # debugpy.breakpoint()
 
     # save score loadings
     scores = (

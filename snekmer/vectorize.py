@@ -244,8 +244,9 @@ class KmerVec:
         # iterate thru sequence in blocks of length k
         while i < n:
             kmer = sequence[i : i + self.k]
-            if set(kmer) <= self.char_set:
-                yield kmer
+            if "X" not in kmer:
+                if set(kmer) <= self.char_set:
+                    yield kmer
             i += 1
 
     # not used: iterate using range() vs. while loop

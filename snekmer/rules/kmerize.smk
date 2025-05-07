@@ -87,10 +87,12 @@ rule vectorize:
 
                 # make basis
             kmerbasis = {}
+            total = int(str(input.fasta).split(".")[0].split("_")[-1])
             fasta = SeqIO.parse(input.fasta, "fasta")
 
             nprot = 0
-            for f in fasta:
+            import tqdm, sys
+            for f in tqdm.tqdm(fasta, file = sys.stderr, desc = "Vectorize Progress", total = total):
                 nprot += 1
                 these = kmer.reduce_vectorize(f.seq)
                 for key in these:
@@ -114,7 +116,7 @@ rule vectorize:
         # I question whether we need to keep the reduced seqs here
         seqs, ids, lengths = list(), list(), list()
         n = 0
-        for f in fasta:
+        for f in tqdm.tqdm(fasta, file = sys.stderr, desc = "Vectorize Progress #2", total = total):
             addvec = kmer.reduce_vectorize(f.seq)
             vecs[n][np.isin(kmerbasis, addvec)] = 1
             n += 1

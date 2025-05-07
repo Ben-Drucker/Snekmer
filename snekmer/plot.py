@@ -165,6 +165,9 @@ def cv_pr_curve(
     for i in X.keys():
         clf.fit(X[i]["train"], y[i]["train"])
         probabilities = clf.model.predict_proba(X[i]["test"])
+        import sys
+        sys.stderr.write(f'{X[i]["test"].shape=}, {X[i]["train"].shape=}, {y[i]["train"].shape=}, {y[i]["test"].shape=}')
+        sys.stderr.write(f'{id(clf.model)=}')
         precision, recall, _ = precision_recall_curve(
             y[i]["test"], clf.predict(X[i]["test"])
         )

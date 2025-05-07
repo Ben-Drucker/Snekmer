@@ -152,8 +152,8 @@ use rule vectorize from kmerize with:
     output:
         data=join("output", "vector", "{nb}.npz"),
         kmerobj=join("output", "kmerize", "{nb}.kmers"),
-    log:
-        join("output", "kmerize", "log", "{nb}.log"),
+    # log:
+    #     join("output", "kmerize", "log", "{nb}.log"),
 
 
 # params:
@@ -176,8 +176,8 @@ rule eval_apply:
     output:
         # 'output/eval_apply/Complete.txt'
         "output/eval_apply/Seq-Annotation-Scores-{nb}.csv",
-    log:
-        join(out_dir, "eval_apply", "log", "{nb}.log"),
+    # log:
+    #     join(out_dir, "eval_apply", "log", "{nb}.log"),
     run:
         start_time = datetime.now()
 

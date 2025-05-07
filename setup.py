@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages
-from snekmer import __version__
+# from snekmer import __version__
 import glob
 import os
 
@@ -19,7 +19,7 @@ pkgs = find_packages(exclude=("test"))  # also Util?
 
 setup(
     name="snekmer",
-    version=__version__,
+    # version=__version__,
     # packages=['kmerfeatures'],
     # test_suite='pytest.collector',
     # tests_require=['pytest'],
@@ -35,7 +35,7 @@ setup(
     packages=pkgs,
     entry_points={"console_scripts": ["snekmer = snekmer.cli:main"]},
     package_data={"": ["rules/*.smk", "scripts/*.py", "templates/*.html"]},
-    # install_requires=required,
+    # install_requires=["numpy"],
     include_package_data=True,
     keywords=[],
     zip_safe=False,

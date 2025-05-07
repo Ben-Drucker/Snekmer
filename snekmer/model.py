@@ -93,6 +93,8 @@ class SnekmerModel(BaseEstimator):
         self.model = NAME2MODEL[model](**model_params)
         self.step_name = step_name
         self.snekmer_version = __version__
+        import sys
+        sys.stderr.write("SnekmerModel'ing\n")
 
     def fit(
         self, X: NDArray, y: NDArray, gridsearch: bool = False, verbose: bool = True
@@ -215,8 +217,8 @@ class SnekmerModelCV:
 
         results = {col: [] for col in cols + ["score", "cv_split"]}
         X, y = {i: {} for i in range(self.cv)}, {i: {} for i in range(self.cv)}
-        for n in range(self.cv):
-
+        import tqdm
+        for n in tqdm.trange(self.cv):
             # remove score cols that were generated from full dataset
             unscored_cols = [col for col in list(data.columns) if "_score" not in col]
 
