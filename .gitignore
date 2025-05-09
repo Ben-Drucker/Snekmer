@@ -1,3 +1,7 @@
+*
+!/**/
+!*.*
+
 # Continuous integration
 .test/.snakemake
 .test/results
@@ -124,3 +128,20 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+**/*.gz
+**/*.npz
+**/*.npy
+**/*.pkl
+**/*.csv
+**/*.png
+**/*.kmers
+**/*.log
+**/*.snakemake_timestamp
+**/*.scorer
+**/*.matrix
+**/*.deb
+**/*.model
+*trtet*
+**/*.fasta
+**/*.ann
+**/*Model_Report*.html
